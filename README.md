@@ -12,7 +12,7 @@ YouTube: https://youtu.be/izha883dq-E
 
 # RWEPA | R - multiple excels
 
-說明: 示範 R 與 多個 Excel 檔案合併處理的應用
+說明: 示範 R 與多個 Excel 檔案合併處理的應用
 
 LINK: 
 
