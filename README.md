@@ -16,8 +16,9 @@ Code: https://github.com/rwepa/business_analytics/blob/main/r_openai.R
 
 說明: 示範 R 與多個 Excel 檔案合併處理的應用
 
-YouTube: 
+YouTube: https://youtu.be/THElG8DB_Uk
 
 LINK: http://rwepa.blogspot.com/2023/01/r-multiple-excels.html
 
 Code: https://github.com/rwepa/business_analytics/blob/main/r_multiple_excels.R
+# end
