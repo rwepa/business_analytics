@@ -6,14 +6,18 @@
 
 說明: 示範 R 與 openai 套件的應用
 
-LINK: http://rwepa.blogspot.com/2022/12/openai-artwork-with-r.html
-
 YouTube: https://youtu.be/izha883dq-E
+
+Link: http://rwepa.blogspot.com/2022/12/openai-artwork-with-r.html
+
+Code: https://github.com/rwepa/business_analytics/blob/main/r_openai.R
 
 # RWEPA | R - multiple excels
 
 說明: 示範 R 與多個 Excel 檔案合併處理的應用
 
-LINK: 
-
 YouTube: 
+
+LINK: http://rwepa.blogspot.com/2023/01/r-multiple-excels.html
+
+Code: https://github.com/rwepa/business_analytics/blob/main/r_multiple_excels.R
