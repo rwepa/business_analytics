@@ -1,7 +1,8 @@
-# Business analytics
+# Business Data Analytics
+
 提供 R, Python, Excel, Tableau, Power BI 等企業資料分析技術.
 
-# RWEPA | R語言 - openai 藝術創作 (openai artwork with R)
+# RWEPA | R - openai 藝術創作 (openai artwork with R)
 
 說明: 示範 R 與 openai 套件的應用
 
