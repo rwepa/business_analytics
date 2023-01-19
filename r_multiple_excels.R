@@ -57,6 +57,10 @@ dflist
 df <- as.data.frame(do.call(rbind, dflist), check.names = FALSE)
 str(df) # 50*12
 
+# 使用 map_dfr {purrr} 亦可執行, 謝謝 Wber 分享 (2023.01.19).
+library(purrr)
+df <- map_dfr(myfile, read_xlsx)
+
 # 3.結論
 # writexl 套件 - 模擬匯出並建立 Excel 檔案
 # readxl 套件 - 匯入 Excel 檔案
