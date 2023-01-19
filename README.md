@@ -1,6 +1,10 @@
 # Business Analytics
 
-提供 R, Python, Excel, Tableau, Power BI 等企業資料分析技術.
++ 提供 R, Python, Excel, Tableau, Power BI 等企業資料分析技術.
+
++ RWEPA網站：http://rwepa.blogspot.com/
+
++ YouTube: https://www.youtube.com/@alan9956
 
 # RWEPA | Python - streamlit dashboard
 
