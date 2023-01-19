@@ -31,4 +31,16 @@ YouTube: https://youtu.be/THElG8DB_Uk
 LINK: http://rwepa.blogspot.com/2023/01/r-multiple-excels.html
 
 Code: https://github.com/rwepa/business_analytics/blob/main/r_multiple_excels.R
+
+# RWEPA | R - shiny for Python
+
+日期: 2022.10.22
+
+說明: Python 使用 shiny 模組教學
+
+YouTube: https://youtu.be/s2fgEAa6lq0
+
+LINK: http://rwepa.blogspot.com/2022/10/shiny-for-python.html
+
+Code: https://github.com/rwepa/shiny_python
 # end
