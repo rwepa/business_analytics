@@ -1,0 +1,264 @@
+---
+format:
+  revealjs: 
+    theme: default
+    menu: true
+    slide-number: true
+    code-line-numbers: true
+    code-overflow: wrap
+editor: visual
+---
+
+# {background-image="images/r-shiny-01-introduction.png"}
+
+## 大綱
+
+1.  shiny能幫助企業(或自己)做什麼?
+
+2.  shiny簡介
+
+3.  第一個shiny範例("01_hello")
+
+4.  結論
+
+## 1.shiny能幫助企業(或自己)做什麼?
+
+-   建立企業級商業智慧,營運智慧與儀表板應用
+
+-   營運資料**互動式**分析與視覺化應用(產銷人發財)
+
+-   辦公室自動化分析應用
+
+```{mermaid}
+%%| fig-width: 10
+flowchart LR
+  A(匯入) --> B(複製)
+  B --> C(貼上)
+  C --> D{篩選}
+  D --> E[樞紐分析]
+  D --> F[合併彙算]
+  E --> G[繪圖]
+  F --> G[繪圖]
+  G --> H(匯出)
+```
+
+## 範例1-CWB 1,600萬筆互動分析平台
+
+![](images/fig1-cwb_temperature_qc.png)
+
+## 範例2-汽車產險預測模型
+
+![](images/fig2-car_insurance_forecasting.png)
+
+## 範例3-空間圓餅圖離群值分析
+
+![](images/fig3-spatial_piechart_outliers.png)
+
+## 範例4-2020新型冠狀病毒視覺化
+
+<a href="http://rwepa.blogspot.com/2020/02/2019nCoV.html" target="_blank">http://rwepa.blogspot.com/2020/02/2019nCoV.html</a>
+
+![](images/fig4-2020_covid19.png)
+
+## 範例5-品質管制圖應用
+
+<a href="http://rwepa.blogspot.com/2021/10/r-shiny-quality-control-chart.html" target="_blank">http://rwepa.blogspot.com/2021/10/r-shiny-quality-control-chart.html</a>
+
+![](images/fig5-quality_control.png)
+
+## 範例6-離子資料分析與視覺化應用
+
+![](images/fig6-ion_analysis_visualization.png)
+
+## 範例7-顧客連接分析-demo
+
+<a href="https://rwepa.shinyapps.io/shinyCustomerConnect/" target="_blank">http://rwepa.blogspot.com/2021/10/r-shiny-quality-control-chart.html</a>
+
+![](images/fig7-customer_connection_demo.png)
+
+## 範例8-Taiwan Stock App-demo
+
+<a href="https://rwepa.shinyapps.io/shinyStockVis/" target="_blank">https://rwepa.shinyapps.io/shinyStockVis/</a>
+
+![](images/fig8-taiwan_stock_app.png)
+
+## 2.shiny簡介
+
+-   2.1 shiny套件
+-   2.2 shiny架構
+-   2.3 shiny特性
+-   2.4 shiny安裝
+-   2.5 shiny使用
+
+## 2.1 shiny套件
+
+-   Google -\> r cran shiny
+-   Shiny, <a href="https://cran.r-project.org/web/packages/shiny/" target="_blank">https://cran.r-project.org/web/packages/shiny/</a>
+-   shiny: Web Application Framework for R.
+    -   Makes it incredibly easy to build interactive web applications with R.
+
+    -   Automatic "reactive" binding between inputs and outputs and extensive prebuilt widgets.
+
+    -   Make it possible to build beautiful, responsive, and powerful applications with minimal effort.
+
+## 2.2 shiny架構
+
+![](images/shiny_framework.png)
+
+## 2.3 shiny特性
+
+-   輸入－包括文字方塊,下拉式選單,按鈕等控制項
+-   處理－執行商業邏輯運算與運用機器學習建立**預測模型(forecasting models)**
+-   輸出－網頁,報表,檔案中呈現文字摘要,表格,靜態與動態圖表
+
+## 2.4 shiny安裝
+
+```{r}
+#| eval: false
+#| echo: true
+install.packages("shiny")
+```
+
+![](images/install_shiny.png)
+
+## 2.5 shiny使用
+
+-   方法1: app.R (簡易架構,適用於小型方案)
+
+-   方法2: ui.R + server.R (完整架構,適用於企業應用)
+
+## 3.第一個shiny範例("01_hello")
+
+```{r}
+#| echo: true
+# 顯示內建11個範例
+dir(paste0(.libPaths(), "/shiny/examples"))
+```
+
+## runExample("01_hello")
+
+-   執行內建範例的方式: runExample(...)
+
+```{r}
+#| eval: false
+#| echo: true
+library(shiny)
+runExample("01_hello")
+```
+
+![](images/01_hello.png)
+
+## ui.R
+
+```{r}
+#| eval: false
+#| echo: true
+# 載入套件
+library(shiny)
+
+# 第1部分 Define UI for app that draws a histogram ----
+ui <- fluidPage(
+
+  # 1.1 App title ----
+  titlePanel("Hello Shiny!"),
+
+  # 1.2 Sidebar layout with input and output definitions ----
+  sidebarLayout(
+
+    # 1.2.1 Sidebar panel for inputs ----
+    sidebarPanel(
+
+      # Input: Slider for the number of bins ----
+      sliderInput(inputId = "bins",
+                  label = "Number of bins:",
+                  min = 1,
+                  max = 50,
+                  value = 30)
+
+    ),
+
+    # 1.2.2 Main panel for displaying outputs ----
+    mainPanel(
+
+      # Output: Histogram ----
+      plotOutput(outputId = "distPlot")
+
+    )
+  )
+)
+```
+
+## server.R
+
+```{r}
+#| eval: false
+#| echo: true
+# 第2部分 Define server logic required to draw a histogram ----
+server <- function(input, output) {
+
+  # Histogram of the Old Faithful Geyser Data ----
+  # with requested number of bins
+  # This expression that generates a histogram is wrapped in a call
+  # to renderPlot to indicate that:
+  #
+  # 1. It is "reactive" and therefore should be automatically
+  #    re-executed when inputs (input$bins) change
+  # 2. Its output type is a plot
+  output$distPlot <- renderPlot({
+
+    x    <- faithful$waiting
+    bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
+    hist(x, breaks = bins, col = "#75AADB", border = "white",
+         xlab = "Waiting time to next eruption (in mins)",
+         main = "Histogram of waiting times")
+
+    })
+
+}
+```
+
+## shiny執行
+
+-   設定 ui
+-   設定 server
+
+```{r}
+#| eval: false
+#| echo: true
+shinyApp(ui = ui, server = server)
+```
+
+## shiny-四大區塊
+
+::: columns
+::: {.column width="30%"}
+1.  library()
+2.  ui()
+3.  server()
+4.  shinyApp()
+:::
+
+::: {.column width="70%"}
+![](images/shiny_architecture.png)
+:::
+:::
+
+## 4.結論
+
+-   shiny能幫助企業(或自己)做什麼 \--\> **互動式預測模型(Interactive Predictive Model)**
+
+-   理解 shiny 套件的運作方法
+
+-   "01_hello"
+
+-   ::: {style="color: blue;"}
+    四大區塊: library, ui, server, runApp
+    :::
+
+## 參考資料
+
+1.  RWPEA \| R - shiny企業實務應用, <a href="https://github.com/rwepa/teaching-r-shiny" target="_blank">https://github.com/rwepa/teaching-r-shiny</a>
+2.  RWEPA, <a href="http://rwepa.blogspot.com/" target="_blank">http://rwepa.blogspot.com/</a>
+3.  Shiny, <a href="https://shiny.rstudio.com/" target="_blank">https://shiny.rstudio.com/</a>
+4.  Posit Videos, <a href="https://www.rstudio.com/resources/webinars/" target="_blank">https://www.rstudio.com/resources/webinars/</a>
