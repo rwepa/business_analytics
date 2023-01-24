@@ -6,6 +6,22 @@
 
 + YouTube: https://www.youtube.com/@alan9956
 
+# RWEPA | R - shiny企業實務應用 第1集-白話shiny
+
+日期: 2023.01.24
+
+說明: 提供簡單易懂 R shiny 套件建立互動式網頁服務與企業級儀表板教學
+
+主題: 1.shiny能幫助企業(或自己)做什麼? 2.shiny簡介 3.第一個shiny範例(“01_hello”) 4.結論
+
+YouTube: 
+
+Materials: https://rwepa.quarto.pub/r-shiny-01-introduction/
+
+Code: https://github.com/rwepa/business_analytics/tree/main/r-shiny-01-introduction
+
+Link: http://rwepa.blogspot.com/2023/01/python-streamlit-dashboard.html
+
 # RWEPA | Python - streamlit dashboard
 
 日期: 2023.01.11
