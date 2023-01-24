@@ -14,13 +14,13 @@
 
 主題: 1.shiny能幫助企業(或自己)做什麼? 2.shiny簡介 3.第一個shiny範例(“01_hello”) 4.結論
 
-YouTube: 
+YouTube: 準備中
 
 Materials: https://rwepa.quarto.pub/r-shiny-01-introduction/
 
 Code: https://github.com/rwepa/business_analytics/tree/main/r-shiny-01-introduction
 
-Link: http://rwepa.blogspot.com/2023/01/python-streamlit-dashboard.html
+Link: http://rwepa.blogspot.com/2023/01/r-shiny-01-introduction.html
 
 # RWEPA | Python - streamlit dashboard
 
