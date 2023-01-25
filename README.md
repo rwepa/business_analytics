@@ -69,4 +69,15 @@
 + LINK: http://rwepa.blogspot.com/2022/10/shiny-for-python.html
 
 + Code: https://github.com/rwepa/shiny_python
-# end
+
+# 參考資料
+
++ Posit Videos: https://www.rstudio.com/resources/webinars/
+
++ R Markdown Cookbook: https://bookdown.org/yihui/rmarkdown-cookbook/
+
++ rstudio::conf 2022 Workshop, Getting Started with Quarto: https://rstudio-conf-2022.github.io/get-started-quarto/
+
++ Shiny: https://shiny.rstudio.com/
+
++ Streamlit documentation: https://docs.streamlit.io/
