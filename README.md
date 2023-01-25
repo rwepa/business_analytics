@@ -14,7 +14,7 @@
 
 主題: 1.shiny能幫助企業(或自己)做什麼? 2.shiny簡介 3.第一個shiny範例(“01_hello”) 4.結論
 
-+ YouTube: 準備中
++ YouTube: https://youtu.be/NV7WNjccfxs
 
 + Slide: https://rwepa.quarto.pub/r-shiny-01-introduction/
 
