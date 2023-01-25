@@ -16,7 +16,7 @@
 
 + YouTube: 準備中
 
-+ Materials: https://rwepa.quarto.pub/r-shiny-01-introduction/
++ Slide: https://rwepa.quarto.pub/r-shiny-01-introduction/
 
 + Code: https://github.com/rwepa/business_analytics/tree/main/r-shiny-01-introduction
 
