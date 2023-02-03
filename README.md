@@ -6,6 +6,30 @@
 
 + YouTube: https://www.youtube.com/@alan9956
 
+# RWEPA | R - shiny企業實務應用 第2集-下拉式選單【附習題、投影片與中文字幕】
+
+日期: 2023.01.30
+
+主題: 
+
++ 2.1 shiny函數總覽 
+
++ 2.2 下拉式選單範例("02_text") 
+
++ 2.3 文字方塊範例("03_reactivity")
+
++ 2.4 習題
+
++ 2.5 結論
+
++ YouTube: https://youtu.be/Y1it6XZbknc
+
++ Slide: https://rwepa.quarto.pub/r-shiny-02-dropdownlist/
+
++ Code: https://github.com/rwepa/business_analytics/tree/main/r-shiny-02-dropdownlist
+
++ Link: http://rwepa.blogspot.com/2023/01/r-shiny-02-dropdownlist.html 
+
 # RWEPA | R - shiny企業實務應用 第1集-白話shiny
 
 日期: 2023.01.24
