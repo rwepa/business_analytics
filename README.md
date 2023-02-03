@@ -26,7 +26,7 @@
 
 說明: 提供簡單易懂 R shiny 套件建立互動式網頁服務與企業級儀表板教學
 
-主題: 1.shiny能幫助企業(或自己)做什麼? 2.shiny簡介 3.第一個shiny範例(“01_hello”) 4.結論
+主題: 1.1 shiny能幫助企業(或自己)做什麼? 1.2 shiny簡介 1.3 第一個shiny範例(“01_hello”) 1.4 結論
 
 + YouTube: https://youtu.be/NV7WNjccfxs
 
