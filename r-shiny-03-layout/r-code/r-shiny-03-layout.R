@@ -35,7 +35,7 @@ ui <- fluidPage(
     # Main panel for displaying outputs ----
     mainPanel(
       
-      # Using tabsetPanel
+      # 建立 tabsetPanel, 包括2個 tabPanel
       tabsetPanel(
         
         tabPanel("資料摘要", verbatimTextOutput("summary")),
