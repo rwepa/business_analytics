@@ -1,0 +1,220 @@
+---
+format:
+  revealjs: 
+    theme: default
+    menu: true
+    slide-number: true
+    code-line-numbers: true
+    code-overflow: wrap
+    code-block-bg: true
+editor: visual
+---
+
+##  {background-video="images/r-shiny-03-layout_title.mp4"}
+
+## 大綱
+
+3.1 佈置函數總覽
+
+3.2 tabsetPanel(分頁面版)
+
+3.3 shiny儀表板標準流程
+
+3.4 第2章習題解答
+
+3.5 習題
+
+3.6 結論
+
+## 3.1 佈置函數總覽
+
+-   Shiny RStudio \\ Reference \\ Latest version -\> <a href="https://shiny.rstudio.com/reference/shiny/1.7.4/" target="_blank">Shiny v1.7.4</a>
+
+![](images/shiny_function_reference.png)
+
+## shiny佈置函數總表(1/2)
+
+```{r}
+library(kableExtra)
+df <- read.table(header=TRUE, sep = ",", text="
+佈置函數, 主題, 中文
+1.absolutePanel() and fixedPanel(), Panel with absolute positioning, 絕對位置面板
+2.bootstrapPage() and basicPage(), Create a Bootstrap page, 建立Bootstrap框架頁面
+3.column(), Create a column within a UI definition, 建立多行UI
+4.conditionalPanel(), Conditional Panel, 條件式面板
+5.fillPage(), Create a page that fills the window, 填充面板
+6.fillRow() and fillCol(), Flex Box-based row/column layouts, 彈性列/行面板
+7.fixedPage() and fixedRow(), Create a page with a fixed layout, 固定面板
+8.fluidPage() and fluidRow(), *Create a page with fluid layout, 流動面板
+9.helpText(), Create a help text element, 說明面板
+10.icon(), Create an icon, 建立按鈕
+11.navbarPage() and navbarMenu(), Create a page with a top level navigation bar, 瀏覽面版與瀏覽下拉選單(適合左側不同)
+12.navlistPanel(), Create a navigation list panel, 瀏覽串列面版
+")
+df %>%
+  kbl(format = 'html') %>%
+  kable_classic("hover", full_width = FALSE) %>%
+  kable_styling(font_size = 24)
+```
+
+## shiny佈置函數總表(2/2)
+
+```{r}
+library(kableExtra)
+df <- read.table(header=TRUE, sep = ",", text="
+佈置函數 , 主題, 中文    
+13.sidebarLayout() and sidebarPanel() and mainPanel(), Layout a sidebar and main area, *側邊面板
+14.tabPanel() and tabPanelBody(), Create a tab panel, *分頁面版
+15.tabsetPanel(), Create a tabset panel, *分頁集合面版(適合左側相同)
+16.titlePanel(), Create a panel containing an application title, 標題面板
+17.inputPanel(), Input panel, 輸入面板
+18.flowLayout(), Flow layout, 流程佈置
+19.splitLayout(), Split layout, 分割佈置
+20.verticalLayout(), Lay out UI elements vertically, 垂直佈置
+21.wellPanel(), Create a well panel, 建立 Well 面板
+22.withMathJax(), Load the MathJax library and typeset math expressions, 數學式
+")
+df %>%
+  kbl(format = 'html') %>%
+  kable_classic("hover", full_width = FALSE) %>%
+  kable_styling(font_size = 24)
+```
+
+## 3.2 tabsetPanel(選單面版)
+
+::: columns
+::: {.column width="50%"}
+-   sidebarLayout(側邊面板)
+
+```{r}
+#| eval: false
+#| echo: true
+library(shiny)
+runExample("02_text")
+```
+
+![](images/sidebarLayout.png)
+:::
+
+::: {.column width="50%"}
+-   tabsetPanel(選單面版)
+
+```{r}
+#| eval: false
+#| echo: true
+# 建立 tabsetPanel, 2個 tabPanel
+# 修改程式碼🍰
+```
+
+![](images/tabsetPanelLayout.png)
+:::
+:::
+
+## Shiny Text-tabsetPanel
+
+-   <a href="https://github.com/rwepa/business_analytics/blob/main/r-shiny-03-layout/r-code/r-shiny-03-layout.R" target="_blank">https://github.com/rwepa/business_analytics/blob/main/r-shiny-03-layout/r-code/r-shiny-03-layout.R</a>
+
+```{r}
+#| eval: false
+#| echo: true
+# 建立 tabsetPanel, 2個 tabPanel
+mainPanel(
+      
+      # 建立 tabsetPanel, 包括2個 tabPanel
+      tabsetPanel(
+        
+        tabPanel("資料摘要", verbatimTextOutput("summary")),
+        
+        tabPanel("表格", tableOutput("table"))
+        
+      )
+)
+```
+
+-   練習 runExample("06_tabsets")
+
+## 3.3 shiny儀表板標準流程
+
+1.  需求確認: 目標, 使用者(策略, 戰術, 操作), 更新時間, 專案期限, 預算, 專案經理
+
+2.  資料ETL(Extract, Transform, Load): 企業內部, 外部資料, 免費, 付費, 資料庫, 雲端
+
+3.  建立儀表板: 雛型, 選取適當套件(graphics, ggplot2, plotly, gganimate, leaflet)
+
+4.  測試: 資料, 功能
+
+5.  佈署與文件製作
+
+## 3.4 第2章習題解答
+
+-   <a href="https://github.com/rwepa/business_analytics/blob/main/r-shiny-03-layout/r-code/r-shiny-02-exercise-solution.R" target="_blank">https://github.com/rwepa/business_analytics/blob/main/r-shiny-03-layout/r-code/r-shiny-02-exercise-solution.R</a>
+
+```{r}
+#| eval: false
+#| echo: true
+# 檢查使用者是否有選取變數,如果沒有選取, 以下程式不會執行
+req(input$variable)
+
+# 解析選取的變數
+# x <- input$variable # 結果會有Error
+x <- eval(parse(text = paste0("iris$", input$variable)))
+bins <- seq(from = min(x),
+            to = max(x),
+            length.out = input$bins + 1)
+```
+
+## 3.5 習題 OnlineRetail.xlsx 資料集 {.smaller}
+
+-   <a href="https://github.com/rwepa/DataDemo/blob/master/OnlineRetail.xlsx" target="_blank">https://github.com/rwepa/DataDemo/blob/master/OnlineRetail.xlsx</a>
+
+-   資料筆數: 541909, 欄位個數: 8
+
+-   使用 readxl 套件 匯入 Excel 檔案並建立4個分頁面板
+
+![](images/OnlineRetail.png)
+## 3.5 習題 - shiny 架構 
+
+::: {style="font-size: 0.6em"}
+
+-   ui:
+
+    -   使用 tabsetPanel + sidebarLayout 佈置方式.
+
+    -   以 Country 變數建立下拉式選單, 名稱為 selectinputCountry.
+    
+    -   建立 Amount 變數, 其中 Amount=Quantity*UnitPrice.
+
+    -   使用滑桿建立 Amount 範圍篩選, 名稱為 sliderInputAmount, 其結果會影響 "2資料明細" 分頁面板.
+
+-   server:
+
+    -   分頁面版名稱: **1資料摘要**, 功能: 顯示所有變數 summary 結果, 包括 Amount 變數.
+    
+    -   分頁面版名稱: **2資料明細**, 功能: 顯示所有54萬筆結果, 考量使用 DT 等套件.
+    
+    -   分頁面版名稱: **3國家別樞紐分析表**, 功能: 建立以 Country 變數為群組的 Amount 總計文字摘要, 欄位名稱為 Country, Amount, 資料依 Amount 欄位, 由大至小排列, 技巧: 使用 aggregate 函數.
+    
+    -   分頁面版名稱: **4國家別樞紐分析圖**, 功能: 建立以 Country 變數為群組的 Amount 長條圖, 資料由大至小排序, 考量使用 plotly 套件, ui: plotlyOutput, server: renderPlotly.
+:::
+
+## 3.6 結論
+
+-   理解 shiny佈置函數(Layout functions)
+
+-   熟悉 tabsetPanel(分頁面版)
+
+-   練習 "06_tabsets" 範例
+
+-   習題(解答...第4集)
+
+## 
+
+::: {style="text-align: center"}
+[THANK YOU😃]{style="color: red;"}
+
+-   按 訂閱、讚、開啟小鈴鐺
+-   <a href="https://youtube.com/@alan9956" target="_blank">https://youtube.com/@alan9956</a>
+-   <a href="http://rwepa.blogspot.com/" target="_blank">http://rwepa.blogspot.com/</a>
+
+![](images/tail_subscribe) ![](images/tail_rwepa.png) ![](images/tail_lee.png)
+:::
