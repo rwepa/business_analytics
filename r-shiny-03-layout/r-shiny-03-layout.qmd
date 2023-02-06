@@ -97,7 +97,7 @@ runExample("02_text")
 :::
 
 ::: {.column width="50%"}
--   tabsetPanel(選單面版)
+-   tabsetPanel(分頁面版)
 
 ```{r}
 #| eval: false
@@ -172,6 +172,7 @@ bins <- seq(from = min(x),
 -   使用 readxl 套件 匯入 Excel 檔案並建立4個分頁面板
 
 ![](images/OnlineRetail.png)
+
 ## 3.5 習題 - shiny 架構 
 
 ::: {style="font-size: 0.6em"}
