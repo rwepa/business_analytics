@@ -80,7 +80,7 @@ df %>%
   kable_styling(font_size = 24)
 ```
 
-## 3.2 tabsetPanel(選單面版)
+## 3.2 tabsetPanel(分頁面版)
 
 ::: columns
 ::: {.column width="50%"}
