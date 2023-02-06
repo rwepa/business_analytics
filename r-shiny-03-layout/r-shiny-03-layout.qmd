@@ -1,0 +1,174 @@
+---
+format:
+  revealjs: 
+    theme: default
+    menu: true
+    slide-number: true
+    code-line-numbers: true
+    code-overflow: wrap
+    code-block-bg: true
+editor: visual
+---
+
+##  {background-video="images/r-shiny-03-layout_title.mp4"}
+
+## 大綱
+
+3.1 佈置函數總覽
+
+3.2 tabsetPanel(分頁面版)
+
+3.3 shiny儀表板標準流程
+
+3.4 第2章習題解答
+
+3.5 第3章習題
+
+3.6 結論
+
+## 3.1 佈置函數總覽
+
+-   Shiny RStudio \\ Reference \\ Latest version -\> <a href="https://shiny.rstudio.com/reference/shiny/1.7.4/" target="_blank">Shiny v1.7.4</a>
+
+![](images/shiny_function_reference.png)
+
+## shiny佈置函數總表(1/2)
+
+```{r}
+library(kableExtra)
+df <- read.table(header=TRUE, sep = ",", text="
+佈置函數, 主題, 中文
+1.absolutePanel() and fixedPanel(), Panel with absolute positioning, 絕對位置面板
+2.bootstrapPage() and basicPage(), Create a Bootstrap page, 建立Bootstrap框架頁面
+3.column(), Create a column within a UI definition, 建立多行UI
+4.conditionalPanel(), Conditional Panel, 條件式面板
+5.fillPage(), Create a page that fills the window, 填充面板
+6.fillRow() and fillCol(), Flex Box-based row/column layouts, 彈性列/行面板
+7.fixedPage() and fixedRow(), Create a page with a fixed layout, 固定面板
+8.fluidPage() and fluidRow(), *Create a page with fluid layout, 流動面板
+9.helpText(), Create a help text element, 說明面板
+10.icon(), Create an icon, 建立按鈕
+11.navbarPage() and navbarMenu(), Create a page with a top level navigation bar, 瀏覽面版與瀏覽下拉選單(適合左側不同)
+12.navlistPanel(), Create a navigation list panel, 瀏覽串列面版
+")
+df %>%
+  kbl(format = 'html') %>%
+  kable_classic("hover", full_width = FALSE) %>%
+  kable_styling(font_size = 24)
+```
+
+## shiny佈置函數總表(2/2)
+
+```{r}
+library(kableExtra)
+df <- read.table(header=TRUE, sep = ",", text="
+佈置函數 , 主題, 中文    
+13.sidebarLayout() and sidebarPanel() and mainPanel(), Layout a sidebar and main area, *側邊面板
+14.tabPanel() and tabPanelBody(), Create a tab panel, *分頁面版
+15.tabsetPanel(), Create a tabset panel, *分頁集合面版(適合左側相同)
+16.titlePanel(), Create a panel containing an application title, 標題面板
+17.inputPanel(), Input panel, 輸入面板
+18.flowLayout(), Flow layout, 流程佈置
+19.splitLayout(), Split layout, 分割佈置
+20.verticalLayout(), Lay out UI elements vertically, 垂直佈置
+21.wellPanel(), Create a well panel, 建立 Well 面板
+22.withMathJax(), Load the MathJax library and typeset math expressions, 數學式
+")
+df %>%
+  kbl(format = 'html') %>%
+  kable_classic("hover", full_width = FALSE) %>%
+  kable_styling(font_size = 24)
+```
+
+## 3.2 tabsetPanel(選單面版)
+
+::: columns
+::: {.column width="50%"}
+-   sidebarLayout(側邊面板)
+
+```{r}
+#| eval: false
+#| echo: true
+library(shiny)
+runExample("02_text")
+```
+
+![](images/sidebarLayout.png)
+:::
+
+::: {.column width="50%"}
+-   tabsetPanel(選單面版)
+
+```{r}
+#| eval: false
+#| echo: true
+# 建立 tabsetPanel, 2個 tabPanel
+# 修改程式碼🍰
+```
+
+![](images/tabsetPanelLayout.png)
+:::
+:::
+
+## Shiny Text-tabsetPanel
+
+-   <a href="https://github.com/rwepa/business_analytics/blob/main/r-shiny-03-layout/r-code/r-shiny-03-layout.R" target="_blank">https://github.com/rwepa/business_analytics/blob/main/r-shiny-03-layout/r-code/r-shiny-03-layout.R</a>
+
+```{r}
+#| eval: false
+#| echo: true
+# 建立 tabsetPanel, 2個 tabPanel
+mainPanel(
+      
+      # 建立 tabsetPanel, 包括2個 tabPanel
+      tabsetPanel(
+        
+        tabPanel("資料摘要", verbatimTextOutput("summary")),
+        
+        tabPanel("表格", tableOutput("table"))
+        
+      )
+)
+```
+
+-   練習 runExample("06_tabsets")
+
+## 3.3 shiny儀表板標準流程
+
+1.  需求確認: 目標, 使用者(策略, 戰術, 操作), 更新時間, 期限, 專案經理
+
+2.  資料ETL(Extract, Transform, Load): 公司內部, 外部資料, 免費, 付費, 資料庫, 雲端
+
+3.  建立儀表板: 雛型, 選取何適套件(graphics, ggplot2, plotly, gganimate, leaflet)
+
+4.  測試: 資料, 功能
+
+5.  佈署與文件化
+
+## 3.4 第2章習題解答
+
+-   
+
+## 3.5 第3章習題
+
+## 3.6 結論
+
+-   理解 shiny佈置函數(Layout functions)
+
+-   熟悉 tabsetPanel(選單面版)
+
+-   認識 "06_tabsets" 範例
+
+-   習題(解答...第4集)
+
+## 
+
+::: {style="text-align: center"}
+[THANK YOU😃]{style="color: red;"}
+
+-   按 訂閱、讚、開啟小鈴鐺
+-   <a href="https://youtube.com/@alan9956" target="_blank">https://youtube.com/@alan9956</a>
+-   <a href="http://rwepa.blogspot.com/" target="_blank">http://rwepa.blogspot.com/</a>
+
+![](images/tail_subscribe) ![](images/tail_rwepa.png) ![](images/tail_lee.png)
+:::
