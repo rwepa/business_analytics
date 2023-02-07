@@ -6,6 +6,20 @@
 
 + YouTube: https://www.youtube.com/@alan9956
 
+# RWEPA | R - shiny企業實務應用 第3集-shiny佈置【附54萬筆銷售資料習題、投影片與中文字幕】
+
+日期: 2023.02.07
+
+主題: 3.1 佈置函數總覽 3.2 tabsetPanel(分頁面版) 3.3 shiny儀表板標準流程 3.4 第2章習題解答 3.5 習題 3.6 結論
+
++ YouTube: https://youtu.be/9Z7r_hI5PCI
+
++ Slide: https://rwepa.quarto.pub/r-shiny-03-layout/
+
++ Code: https://github.com/rwepa/business_analytics/tree/main/r-shiny-03-layout
+
++ Link: http://rwepa.blogspot.com/2023/02/r-shiny-03-layout.html
+
 # RWEPA | R - shiny企業實務應用 第2集-下拉式選單【附習題、投影片與中文字幕】
 
 日期: 2023.01.30
