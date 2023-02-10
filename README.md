@@ -20,6 +20,8 @@
 
 + Link: http://rwepa.blogspot.com/2023/02/r-shiny-03-layout.html
 
++ 第2集 Exercise solution: https://github.com/rwepa/business_analytics/blob/main/r-shiny-03-layout/r-code/r-shiny-02-exercise-solution.R
+
 # RWEPA | R - shiny企業實務應用 第2集-下拉式選單【附習題、投影片與中文字幕】
 
 日期: 2023.01.30
