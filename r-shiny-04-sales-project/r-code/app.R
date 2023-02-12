@@ -41,7 +41,7 @@ ui <- fluidPage(
   # App標題
   titlePanel("RWEPA | Sales Dashboard-v.23.02.14, RWEPA: http://rwepa.blogspot.com/"),
   
-  # 設定主題
+  # 設定主題色彩
   theme = shinythemes::shinytheme("cerulean"),
   
   # 側邊佈置
@@ -192,6 +192,6 @@ server <- function(input, output) {
   
 }
 
-# Create Shiny app ----
+# 執行 Shiny app
 shinyApp(ui, server)
 # end
