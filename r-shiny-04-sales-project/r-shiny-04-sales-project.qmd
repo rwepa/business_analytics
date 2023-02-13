@@ -1,0 +1,206 @@
+---
+format:
+  revealjs: 
+    theme: default
+    menu: false
+    slide-number: true
+    code-line-numbers: true
+    code-overflow: wrap
+    code-block-bg: true
+editor: visual
+---
+
+## RWEPA \| R - shiny企業實務應用 {background-color="#002060"}
+
+[第4集-shiny銷售儀表板]{style="color: #FFC000; font-size: 1.5em;"}
+
+::: columns
+::: {.column width="55%"}
+-   按 訂閱、讚、開啟小鈴鐺
+-   <a href="https://youtube.com/@alan9956" target="_blank">https://youtube.com/@alan9956</a>
+-   <a href="http://rwepa.blogspot.com/" target="_blank">http://rwepa.blogspot.com/</a> ![](images/tail_3_icons.png)
+:::
+
+::: {.column width="45%"}
+Business Data Analytics ![](images/r-shiny-wordcloud.png)
+:::
+:::
+
+## 大綱
+
+4.1 範例_runExample("04_mpg")
+
+4.2 範例_runExample("05_sliders")
+
+4.3 銷售儀表板-手繪版
+
+4.4 銷售儀表板-完成版
+
+4.5 習題-**R與小明算命師**
+
+4.6 結論
+
+## 4.1 範例_runExample("04_mpg")
+
+```{r}
+#| eval: false
+#| echo: true
+library(shiny)
+runExample("04_mpg")
+# 程式碼解說
+```
+
+![](images/04_mpg.png)
+
+## 4.2 範例_runExample("05_sliders")
+
+```{r}
+#| eval: false
+#| echo: true
+library(shiny)
+runExample("05_sliders")
+# 程式碼解說
+```
+
+![](images/05_sliders.png)
+
+## 4.3 銷售儀表板-手繪版
+
+-   4.3.1 資料集與儀表板-架構
+
+-   4.3.2 shiny銷售儀表板-手繪版
+
+-   4.3.3 Shiny Widgets Gallery
+
+## 4.3.1 資料集與儀表板-架構
+
+-   資料集 <a href="https://rwepa.quarto.pub/r-shiny-03-layout/#/%E7%BF%92%E9%A1%8C-onlineretail.xlsx-%E8%B3%87%E6%96%99%E9%9B%86" target="_blank">https://rwepa.quarto.pub/r-shiny-03-layout/#/%E7%BF%92%E9%A1%8C-onlineretail.xlsx-%E8%B3%87%E6%96%99%E9%9B%86</a>
+
+-   架構 <a href="https://rwepa.quarto.pub/r-shiny-03-layout/#/%E7%BF%92%E9%A1%8C---shiny-%E6%9E%B6%E6%A7%8B" target="_blank">https://rwepa.quarto.pub/r-shiny-03-layout/#/%E7%BF%92%E9%A1%8C-onlineretail.xlsx-%E8%B3%87%E6%96%99%E9%9B%86</a>
+
+## 4.3.2 shiny銷售儀表板-手繪版
+
+![](images/rwepa_sales_basic_dashboard.png)
+
+## 4.3.3 Shiny Widgets Gallery {.smaller}
+
+-   輸入控制項 <a href="https://shiny.rstudio.com/gallery/widget-gallery.html" target="_blank">https://shiny.rstudio.com/gallery/widget-gallery.html</a>
+
+![](images/shiny_widgets_gallery.png)
+
+## 4.4 shiny銷售儀表板-完成版(1/5)
+
+-   資料摘要 ![](images/app1_summary.png)
+
+## 資料明細(2/5)
+
+![](images/app2_details.png)
+
+## 國家別銷售統計表(3/5)
+
+![](images/app3_country_list.png)
+
+## 國家別銷售統計圖(4/5)
+
+![](images/app4_country_chart.png)
+
+## 銷售趨勢圖(5/5)
+
+![](images/app5_daily_trend.png)
+
+## shiny銷售儀表板 {.smaller}
+
+-   線上瀏覽 <a href="https://rwepa.shinyapps.io/shinySalesDashboard/" target="_blank">https://rwepa.shinyapps.io/shinySalesDashboard/</a>
+
+-   程式碼 <a href="https://github.com/rwepa/business_analytics/tree/main/r-shiny-04-sales-project/r-code" target="_blank">https://github.com/rwepa/business_analytics/tree/main/r-shiny-04-sales-project/r-code</a>
+
+-   加強R基礎與進階能力【附資料集、程式碼、中文字幕】 <a href="https://mastertalks.tw/products/r?ref=MCLEE
+    " target="_blank">https://mastertalks.tw/products/r?ref=MCLEE </a>
+
+![](images/r_learning.png)
+
+## shiny銷售儀表板-匯入資料
+
+```{r}
+#| eval: false
+#| echo: true
+library(shiny)   # shinyApp
+library(dplyr)   # mutate_if, mutate, filter
+library(DT)      # datatable
+library(ggplot2) # ggplot
+library(plotly)  # plot_ly
+
+# 線上銷售儀表板App
+# https://rwepa.shinyapps.io/shinySalesDashboard/
+  
+# 匯入資料
+library(readxl)  # read_excel
+# https://github.com/rwepa/DataDemo/blob/master/OnlineRetail.xlsx
+sales <- read_excel(path="data/OnlineRetail.xlsx") # 匯入時間 < 10 seconds
+sales # 541,909 × 8
+```
+
+## shiny銷售儀表板-資料轉換
+
+```{r}
+#| eval: false
+#| echo: true
+# 資料轉換
+sales <- sales %>%
+  mutate_if(is.character, as.factor) %>%   # 轉換 character 為 factor
+  mutate(Amount=Quantity*UnitPrice) %>%    # 新增 Amount=Quantity*UnitPrice
+  filter(Quantity > 0 & UnitPrice > 0) %>% # 篩選 Quantity>0 & UnitPrice>0
+  na.omit()                                # 刪除 NA
+
+summary(sales)
+# sales # 397,884 × 9
+
+save(sales, file = "data/sales.RData")
+
+load("data/sales.RData")
+```
+
+## shiny銷售儀表板-sales資料物件
+
+-   sales資料物件結果
+![](images/print_sales.png)
+
+-   ui, server解說
+
+## 4.5 習題-R與小明算命師 {.smaller background-image="images/crystal_ball.png"}
+
+-   人力資源資料集說明: <a href="https://github.com/rwepa/DataDemo#human_resourcecsv" target="_blank">https://github.com/rwepa/DataDemo#human_resourcecsv</a>
+
+-   下載: <a href="https://github.com/rwepa/DataDemo/blob/master/human_resource.csv" target="_blank">https://github.com/rwepa/DataDemo/blob/master/human_resource.csv</a>
+
+-   目標為建立shiny人力資源儀表板
+
+    -   建立資料摘要分析
+
+    -   繪圖理解資料的特性
+
+    -   小明算命師🔮使用 left (是否離職;1:離職, 0:沒有)為反應變數進行**監督式學習預測**
+    
+    -   自動產生報表分析結果,內容包括監督式學習模型,模型視覺化,混淆矩陣,ROC曲線,預測正確率等
+
+## 4.6 結論
+
+-   熟悉 ui, server函數
+
+-   熟悉 dplyr, DT, ggplot2, plotly套件
+
+-   理解第3章銷售儀表板建置
+
+-   第4章習題-R與小明算命師(解答...期待...第5集)
+
+## 
+
+::: {style="text-align: center"}
+[THANK YOU😃]{style="color: red;"}
+
+-   按 訂閱🛒、讚👋、開啟小鈴鐺🔔
+-   <a href="https://youtube.com/@alan9956" target="_blank">https://youtube.com/@alan9956</a>
+-   <a href="http://rwepa.blogspot.com/" target="_blank">http://rwepa.blogspot.com/</a>
+
+![](images/tail_subscribe) ![](images/tail_rwepa.png) ![](images/tail_lee.png)
+:::
