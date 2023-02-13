@@ -29,7 +29,7 @@ library(plotly)  # plot_ly
 #   na.omit()                                # 刪除 NA
 
 # summary(sales)
-# sale 397,884 × 9
+# sales # 397,884 × 9
 
 # save(sales, file = "data/sales.RData")
 
