@@ -10,7 +10,7 @@
 
 日期: 2023.02.14
 
-主題: 4.1 範例_runExample("04_mpg") 4.2 範例_runExample("05_sliders") 4.3 銷售儀表板-手繪版 4.4 銷售儀表板-完成版 4.5 習題-R與小明算命師 4.6 結論
+主題: 4.1 範例_runExample("04_mpg") 4.2 範例_runExample("05_sliders") 4.3 銷售儀表板-手繪版 4.4 銷售儀表板-完成版 4.5 習題-R與**小明算命師** 4.6 結論
 
 + YouTube: https://youtu.be/4GgZlf8heQk
 
