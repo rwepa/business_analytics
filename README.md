@@ -6,6 +6,20 @@
 
 + YouTube: https://www.youtube.com/@alan9956
 
+# RWEPA | R - shiny企業實務應用 第4集-shiny銷售儀表板【附小明算命師習題、投影片與中文字幕】
+
+日期: 2023.02.14
+
+主題: 4.1 範例_runExample("04_mpg") 4.2 範例_runExample("05_sliders") 4.3 銷售儀表板-手繪版 4.4 銷售儀表板-完成版 4.5 習題-R與小明算命師 4.6 結論
+
++ YouTube: https://youtu.be/4GgZlf8heQk
+
++ Slide: https://rwepa.quarto.pub/r-shiny-04-sales-project/
+
++ Code: https://github.com/rwepa/business_analytics/tree/main/r-shiny-04-sales-project
+
++ Link: http://rwepa.blogspot.com/2023/02/r-shiny-04-sales-project.html
+
 # RWEPA | R - shiny企業實務應用 第3集-shiny佈置【附54萬筆銷售資料習題、投影片與中文字幕】
 
 日期: 2023.02.07
