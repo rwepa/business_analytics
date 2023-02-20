@@ -1,6 +1,7 @@
 # File     : app.R
 # Title    : RWEPA | Shiny - Sales Dashboard 
 # Author   : Ming-Chang Lee
+# Date     : 2023.2.20
 # YouTube  : https://www.youtube.com/@alan9956
 # RWEPA    : http://rwepa.blogspot.tw/
 # GitHub   : https://github.com/rwepa
@@ -37,9 +38,9 @@ load("data/sales.RData")
 
 # 定義銷售儀表板UI
 ui <- fluidPage(
-  
+
   # App標題
-  titlePanel("RWEPA | Sales Dashboard-v.23.02.14, RWEPA: http://rwepa.blogspot.com/"),
+  titlePanel("RWEPA | Sales Dashboard-v.23.02.20, RWEPA: http://rwepa.blogspot.com/"),
   
   # 設定主題
   theme = shinythemes::shinytheme("cerulean"),
@@ -53,9 +54,10 @@ ui <- fluidPage(
       # 輸入: 選取國家
       # levels(sales$Country) = 38
       selectInput(inputId = "selectinputCountry", 
-                  label = "選取國家:",
-                  choices = c("ALL",levels(sales$Country)),
-                  selected = "ALL"),
+                  label = "選取多個國家(取消選取方式:國家+Del鍵):",
+                  choices = c(levels(sales$Country)),
+                  selected = "ALL",
+                  multiple = TRUE),
       
       # br() 空白列
       br(),
@@ -93,23 +95,23 @@ server <- function(input, output) {
   
   # 測試資料
   # input <- list(selectinputCountry = NA, sliderInputAmount = NA)
-  # input$selectinputCountry <- "ALL"
   # input$selectinputCountry <- "United Kingdom"
   # input$sliderInputAmount <- c(0, 150000)
+  # input$selectinputCountry <- c("Australia", "Bahrain")
   
   # 反應表示式(Reactive expression): 判斷資料篩選結果
   selected <- reactive({
     
-    if (input$selectinputCountry == "ALL") {         # ALL 表示選取所有國家
+    if (is.null(input$selectinputCountry)) {         # NULL 表示選取所有國家
       df <- sales %>%
         filter(Amount >= input$sliderInputAmount[1], # filter 使用逗號表示 & (AND運算)
                Amount <= input$sliderInputAmount[2])
     } else {
       df <- sales %>%
-        filter(Amount >= input$sliderInputAmount[1], 
+        filter(Amount >= input$sliderInputAmount[1],
                Amount <= input$sliderInputAmount[2],
-               Country == input$selectinputCountry)
-      
+               Country %in% input$selectinputCountry) # 使用 %in% 運算子
+
     }
     
   })
