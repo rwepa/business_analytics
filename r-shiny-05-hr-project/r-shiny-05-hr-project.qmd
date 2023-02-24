@@ -1,0 +1,437 @@
+---
+format:
+  revealjs: 
+    theme: default
+    menu: false
+    slide-number: true
+    code-line-numbers: true
+    code-overflow: wrap
+    code-block-bg: true
+editor: visual
+---
+
+## RWEPA \| R - shiny企業實務應用 {background-color="#002060"}
+
+[第5集-shiny小明算命師(上)]{style="color: #FFC000; font-size: 1.5em;"}
+
+::: columns
+::: {.column width="55%"}
+-   按 訂閱、讚、開啟小鈴鐺
+-   <a href="https://youtube.com/@alan9956" target="_blank">https://youtube.com/@alan9956</a>
+-   <a href="http://rwepa.blogspot.com/" target="_blank">http://rwepa.blogspot.com/</a> ![](images/tail_3_icons.png)
+:::
+
+::: {.column width="45%"}
+Business Data Analytics ![](images/r-shiny-wordcloud2.png)
+:::
+:::
+
+## 大綱
+
+5.1 套件總覽
+
+5.2 Excel檔案匯入
+
+5.3 資料轉換與視覺化
+
+5.4 建立預測模型
+
+5.5 習題-**R與小明算命師-shiny實作篇**
+
+5.6 結論
+
+## 5.1 套件總覽 {.smaller}
+
+-   搜尋套件: r cran 套件名稱, 例: Google --> r cran readr
+
+-   ROC曲線繪圖: <a href="http://rwepa.blogspot.com/2013/01/rocr-roc-curve.html" target="_blank">http://rwepa.blogspot.com/2013/01/rocr-roc-curve.html</a>
+
+-   套件功能表
+
+|套件        |功能                               |
+|------------|-----------------------------------|
+|readr       |匯入文字檔案,例:'csv', 'tsv', 'fwf'|
+|dplyr       |資料轉換                           |
+|ggcorrplot  |相關矩陣繪圖                       |
+|ggplot2     |繪圖                               |
+|randomForest|隨機森林                           |
+|caret       |分類,迴歸                          |
+|pROC        |ROC曲線繪圖                        |
+
+## 載入套件
+```{r}
+#| eval: true
+#| echo: true
+library(readr) # read_csv
+library(dplyr) # mutate_if, mutate, group_by, summarise, select, rename_with
+library(ggcorrplot)   # ggcorrplot
+library(ggplot2)      # ggplot
+library(randomForest) # randomForest, importance, varImpPlot
+library(caret)        # trainControl, train
+library(pROC)         # plot.roc
+```
+
+## 5.2 Excel檔案匯入 {style="font-size: 75%;"}
+
+-   人力資源資料集說明: <a href="https://github.com/rwepa/DataDemo#human_resourcecsv" target="_blank">https://github.com/rwepa/DataDemo#human_resourcecsv</a>
+
+-   下載: <a href="https://github.com/rwepa/DataDemo/blob/master/human_resource.csv" target="_blank">https://github.com/rwepa/DataDemo/blob/master/human_resource.csv</a>
+
+```{r}
+#| eval: true
+#| echo: true
+# 載入人力資源資料集
+urls <- "https://raw.githubusercontent.com/rwepa/DataDemo/master/human_resource.csv"
+df <- read_csv(urls)
+df # A tibble: 14,999 × 10
+```
+
+## 5.3 資料轉換與視覺化
+
+-  資料結構 str
+
+-  資料摘要 summary
+
+-  資料轉換 mutate_if, mutate
+
+-  left群組百分比, left群組的變數平均值
+
+-  相關係數矩陣圖,left群組盒鬚圖
+
+## 資料結構 {.smaller}
+```{r}
+#| eval: true
+#| echo: true
+str(df) # left: num數值, role, salary: chr字元
+```
+
+## 資料摘要 {.smaller}
+```{r}
+#| eval: true
+#| echo: true
+summary(df) # 資料沒有NA
+```
+
+## 資料轉換
+```{r}
+#| eval: true
+#| echo: true
+# 資料轉換
+df <- df %>%
+  mutate_if(is.character, as.factor) %>% # 轉換 character 為 factor
+  mutate(left=factor(left, labels=c("No","Yes")))
+str(df)
+```
+
+## left群組百分比
+
+```{r}
+#| eval: true
+#| echo: true
+df %>%
+  group_by(left) %>% # 建立依left為群組
+  summarise(Count = n()) %>% # 建立群組總計Count
+  mutate(Freq = round(Count / sum(Count), 2)) #建立群組百分比Freq
+```
+
+
+## left群組的變數平均值
+
+```{r}
+#| eval: true
+#| echo: true
+df %>%
+  select(-c(role, salary)) %>% # 刪除 role, salary 二個欄位
+  group_by(left) %>% # 依left建立群組
+  summarise(across(everything(), list(mean))) %>% # 計算各群組的平均值
+  rename_with(~ tolower(gsub("_1", "_mean", .x, fixed = TRUE))) # 更改欄位名稱
+```
+
+## 相關係數
+
+```{r}
+#| eval: true
+#| echo: true
+corr <- cor(as.data.frame(df %>% select(-c(role, salary, left))))
+corr
+```
+
+## 相關係數矩陣圖
+```{r}
+#| eval: true
+#| echo: true
+ggcorrplot(corr, lab = TRUE, colors=c("sienna1","white","deepskyblue3")) +
+  ggtitle("人力資源相關係數矩陣圖") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+## 員工工作滿意度-left群組盒鬚圖
+```{r}
+#| eval: true
+#| echo: true
+ggplot(aes(y = satisfaction_level, x = left), data = df) + 
+  geom_boxplot() +
+  ggtitle("員工工作滿意度-left群組盒鬚圖") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+## 整體vs.離職員工平均工作滿意度
+
+```{r}
+#| eval: true
+#| echo: true
+# 整體員工的平均工作滿意度
+emp_population_satisfaction <- mean(df$satisfaction_level)
+
+# 離職員工的平均工作滿意度
+left_pop <- subset(df, left == "Yes")
+emp_turnover_satisfaction <- mean(left_pop$satisfaction_level)
+
+print(paste(c('整體員工的工作滿意度: ', 
+              round(emp_population_satisfaction, 4)*100, '%'), 
+            collapse =""))
+print(paste(c('離職員工的工作滿意度: ', 
+              round(emp_turnover_satisfaction, 4)*100, '%'), 
+            collapse =""))
+```
+
+## T檢定-整體vs.離職平均工作滿意度 {.smaller}
+```{r}
+#| eval: true
+#| echo: true
+# T檢定-比較整體員工與離職員工的平均工作滿意度
+# H0: 離職員工的平均工作滿意度等於整體員工的平均工作滿意度
+# H1: 離職員工的平均工作滿意度不等於整體員工的平均工作滿意度
+ttest_satisfaction <- t.test(x=left_pop$satisfaction_level, mu=emp_population_satisfaction)
+ttest_satisfaction
+
+if (ttest_satisfaction$p.value <= 0.05) {
+  print("Rejet H0")
+} else {
+  print("Do not reject H0")
+}
+```
+
+## 5.4 建立預測模型
+
+-   特徵重要性繪圖
+
+-   建立訓練集(70%),測試集(30%)
+
+-   建立監督式學習模型
+
+## 特徵重要性
+```{r}
+#| eval: true
+#| echo: true
+# 使用隨機森林(random forest)
+df_rf <- randomForest(left~., data=df)
+
+# 特徵重要性(feature importance)
+importance(df_rf)
+```
+
+## 特徵重要性繪圖
+
+```{r}
+#| eval: true
+#| echo: true
+# 特徵重要性繪圖(feature importance plot)
+varImpPlot(df_rf, pch = 16, main="人力資源特徵重要性繪圖")
+```
+
+## 建立訓練集(70%),測試集(30%) {style="font-size: 90%;"}
+```{r}
+#| eval: true
+#| echo: true
+set.seed(168)
+trainIndex <- createDataPartition(df$left, p = 0.7, list = FALSE)
+train <- df[trainIndex,]
+head(train, n=3)
+
+test <- df[-trainIndex,] # 使用負號
+head(test, n=3)
+```
+
+## 建立監督式學習模型 {style="font-size: 90%;"}
+```{r}
+#| eval: true
+#| echo: true
+set.seed(168)
+
+fitControl <- trainControl(
+  method = "repeatedcv",
+  number = 10,
+  summaryFunction = twoClassSummary, 
+  classProbs = TRUE,
+  savePredictions = TRUE)
+
+model <- function(usedmethod, data_train, data_test) {
+  myformula <- as.formula("left ~ .")
+  tmp <- train(myformula, # 使用 train 進行模型訓練
+               data = data_train, 
+               trControl = fitControl, 
+               method = usedmethod)
+  
+  mymodel <- list(trainmodel=tmp, # ＜技巧＞使用list回傳模型結果與正確率
+                  accuracy=mean(data_test$left == predict(tmp, data_test)))
+  return(mymodel)
+}
+```
+
+## 方法1: 廣義線性模型(GLM)
+
+```{r}
+#| eval: true
+#| echo: true
+model_glm <- model("glm", train, test)
+
+# 顯示 summary, accuracy
+# summary(model_glm$trainmodel)
+model_glm$accuracy  # 0.7879529
+
+# Plot roc curve
+plot.roc(model_glm$trainmodel$pred$obs,
+         model_glm$trainmodel$pred$Yes,
+         print.auc=TRUE,
+         print.auc.x=0.2, 
+         print.auc.y=0.7,
+         grid=TRUE,
+         col=2)
+legend("bottomright", 
+       legend=c("glm", "cart", "knn"),
+       col=c(2:4), 
+       lwd=2)
+```
+
+## ROC曲線
+
+```{r}
+#| eval: true
+#| echo: false
+# Plot roc curve
+plot.roc(model_glm$trainmodel$pred$obs,
+         model_glm$trainmodel$pred$Yes,
+         print.auc=TRUE,
+         print.auc.x=0.2, 
+         print.auc.y=0.7,
+         grid=TRUE,
+         col=2)
+legend("bottomright", 
+       legend=c("glm", "cart", "knn"),
+       col=c(2:4), 
+       lwd=2)
+```
+
+## 方法2: CART決策樹
+```{r}
+#| eval: false
+#| echo: true
+# 方法2: CART決策樹
+model_tree <- model("rpart", train, test)
+
+# 顯示 accuracy
+# summary(model_tree$trainmodel)
+model_tree$accuracy # 0.9113136
+
+# Plot roc curve
+plot.roc(model_tree$trainmodel$pred$obs,
+         model_tree$trainmodel$pred$Yes,
+         print.auc=TRUE,
+         add=TRUE,
+         col=3,
+         print.auc.x=0.3, 
+         print.auc.y=0.6)
+```
+
+## 方法3: KNN(K-近鄰演算法 K-Nearest Neighbors)
+```{r}
+#| eval: false
+#| echo: true
+# 方法3: KNN
+model_knn <- model("knn", train, test)
+
+# 顯示 accuracy
+model_knn$accuracy # 0.9404312
+
+# Plot roc curve
+plot.roc(model_knn$trainmodel$pred$obs,
+         model_knn$trainmodel$pred$Yes,
+         print.auc=TRUE,
+         add=TRUE,
+         col=4,
+         print.auc.x=0.4, 
+         print.auc.y=0.5)
+```
+
+## ROC曲線(GLM, CART, KNN)
+
+```{r}
+#| eval: true
+#| echo: false
+
+model_glm <- model("glm", train, test)
+
+# Plot roc curve
+plot.roc(model_glm$trainmodel$pred$obs,
+         model_glm$trainmodel$pred$Yes,
+         print.auc=TRUE,
+         print.auc.x=0.2, 
+         print.auc.y=0.7,
+         grid=TRUE,
+         col=2)
+legend("bottomright", legend=c("glm", "cart", "knn"),
+       col=c(2:4), lwd=2)
+
+# 方法2: CART決策樹
+model_tree <- model("rpart", train, test)
+
+# Plot roc curve
+plot.roc(model_tree$trainmodel$pred$obs,
+         model_tree$trainmodel$pred$Yes,
+         print.auc=TRUE,
+         add=TRUE,
+         col=3,
+         print.auc.x=0.3, 
+         print.auc.y=0.6)
+
+# 方法3: KNN
+model_knn <- model("knn", train, test)
+
+# Plot roc curve
+plot.roc(model_knn$trainmodel$pred$obs,
+         model_knn$trainmodel$pred$Yes,
+         print.auc=TRUE,
+         add=TRUE,
+         col=4,
+         print.auc.x=0.4, 
+         print.auc.y=0.5)
+```
+
+## 5.5 習題-R與小明算命師-shiny實作篇 {background-image="images/crystal_ball.png"}
+
+-   實作shiny人力資源儀表板
+
+-   建立資料摘要,結構,繪圖,監督式學習預測
+
+-   **自動產生報表**結果,內容包括監督式學習模型,模型視覺化,混淆矩陣,ROC曲線,預測正確率等
+
+## 5.6 結論
+
+-   熟悉 readr, dplyr, ggcorrplot, ggplot2, randomForest, caret, pROC 套件
+
+-   理解第4章R與小明算命師的資料APC方法
+
+-   第5章習題-R與小明算命師(下) ...期待最終回【第6集】
+
+## 
+
+::: {style="text-align: center"}
+[THANK YOU😃]{style="color: red;"}
+
+-   按 訂閱🛒、讚👋、開啟小鈴鐺🔔
+-   <a href="https://youtube.com/@alan9956" target="_blank">https://youtube.com/@alan9956</a>
+-   <a href="http://rwepa.blogspot.com/" target="_blank">http://rwepa.blogspot.com/</a>
+
+![](images/tail_subscribe) ![](images/tail_rwepa.png) ![](images/tail_lee.png)
+:::
