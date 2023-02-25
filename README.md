@@ -6,6 +6,20 @@
 
 + YouTube: https://www.youtube.com/@alan9956
 
+# RWEPA | R - shiny企業實務應用 第5集-小明算命師(上)【附小明算命師實作習題、投影片與中文字幕】
+
+日期: 2023.02.25
+
+主題: 5.1 套件總覽 5.2 Excel檔案匯入 5.3 資料轉換與視覺化 5.4 建立預測模型 5.5 習題-R與小明算命師-shiny實作篇 5.6 結論
+
++ YouTube: https://youtu.be/GuSYWbxz4UU
+
++ Slide: https://rwepa.quarto.pub/r-shiny-05-hr-project
+
++ Code: https://github.com/rwepa/business_analytics/tree/main/r-shiny-05-hr-project
+
++ Link: http://rwepa.blogspot.com/2023/02/r-shiny-05-hr-project.html
+
 # RWEPA | R - shiny企業實務應用 第4集-shiny銷售儀表板【附小明算命師習題、投影片與中文字幕】
 
 日期: 2023.02.14
