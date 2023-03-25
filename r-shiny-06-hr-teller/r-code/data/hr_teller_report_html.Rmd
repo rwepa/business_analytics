@@ -1,0 +1,326 @@
+---
+output: html_document
+params:
+  para_title: NA
+  para_producer: NA
+  para_headdata: NA
+  para_str: NA
+  para_evaluation: NA
+  para_project: NA
+  para_hours: NA
+  para_company: NA
+  para_satisfication: NA
+  para_accident: NA
+  para_promotion: NA
+  para_role: NA
+  para_salary: NA
+  para_prediction: NA
+---
+
+# 主題: `r params$para_title`
+
+# 製表: `r params$para_producer`
+
+## 套件說明
+
+```{r library_illustration, echo=FALSE}
+library(knitr)
+package_list <- data.frame(套件=c("readr", "dplyr", "ggcorrplot", "ggplot2", "randomForest", "caret", "pROC"),
+                           功能=c("快速讀取文字檔: read_csv",
+                                "資料整理: mutate_if, mutate, group_by, summarise, select, rename_with", 
+                                "相關係數矩陣圖: ggcorrplot", 
+                                "圖形文法繪圖: ggplot", 
+                                "隨機森林法: randomForest, importance, varImpPlot", 
+                                "分類與迴歸訓練: trainControl, train", 
+                                "ROC曲線: plot.roc"),
+                           check.names = FALSE)
+kable(package_list)
+```
+
+```{r loading_package, echo=FALSE}
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(ggcorrplot))
+suppressPackageStartupMessages(library(randomForest))
+suppressPackageStartupMessages(library(caret))
+suppressPackageStartupMessages(library(pROC))
+
+library(readr)
+library(dplyr)
+library(ggcorrplot)
+library(ggplot2)
+library(randomForest)
+library(caret)
+library(pROC)
+```
+
+```{r loading_data, echo=FALSE}
+# 載入人力資源資料集
+urls <- "https://raw.githubusercontent.com/rwepa/DataDemo/master/human_resource.csv"
+df <- read_csv(urls)
+
+old_names <- names(df)
+new_names <- c("考核分數", "每年專案個數", "每月工作小時", "辨公時間", "工安意外", 
+               "工作滿意度", "離職", "升遷", "部門", "薪資")
+```
+
+```{r data_process, echo=FALSE}
+# 資料轉換
+df <- df %>%
+  mutate_if(is.character, as.factor) %>% # 將 character 轉換為 factor
+  mutate(Work_accident=factor(Work_accident, labels=c("No","Yes"))) %>% # 0: No, 1: Yes
+  mutate(left=factor(left, labels=c("No","Yes"))) %>% # 0: No, 1: Yes
+  mutate(promotion_last_5years=factor(promotion_last_5years, labels=c("No","Yes"))) %>% # 0: No, 1: Yes
+  relocate(left, .after = last_col()) %>% # locate left to last column
+  rename_with(~ new_names, all_of(old_names)) # rename all columns
+```
+
+## 人力資源資料敘述統計
+
+```{r head_data, echo=FALSE}
+## 前6筆資料
+if (params$para_headdata == 1) {
+  cat("前6筆資料\n")
+  head(df)
+}
+```
+
+```{r structure_data, echo=FALSE}
+# 資料結構
+if (params$para_str == 1) {
+  cat("資料結構\n")
+  str(df)
+}
+```
+
+```{r summary_data, echo=FALSE}
+# 資料摘要
+summary(df)
+```
+
+## 離職群組之總數與百分比
+
+```{r left_summary, echo=FALSE}
+df %>%
+  group_by(離職) %>% # 建立依left為群組
+  summarise(個數 = n()) %>% # 建立群組總計Count
+  mutate(百分比 = round(個數*100 / sum(個數), 0)) #建立群組百分比Freq
+```
+
+## 離職群組之平均值
+
+```{r left_mean, echo=FALSE}
+df %>%
+  select(-c(工安意外, 升遷, 部門, 薪資)) %>% # 刪除 工安意外,升遷,部門,薪資 4個 factor 欄位
+  group_by(離職) %>% # 依left建立群組
+  summarise(across(everything(), list(mean))) %>% # 計算各群組的平均值
+  rename_with(~ tolower(gsub("_1", "_平均值", .x, fixed = TRUE))) # 更改欄位名稱
+```
+
+## 相關係數矩陣圖(correlation matrix plot)
+
+```{r correlation_matrix, echo=FALSE}
+# 相關係數矩陣(correlation matrix)
+corr <- cor(data.frame(df %>% select(-c(工安意外, 升遷, 部門, 薪資, 離職)), check.names = FALSE))
+
+# 相關係數矩陣圖(correlation matrix plot)
+ggcorrplot(corr, lab = TRUE, colors = c("sienna1", "white", "deepskyblue3")) +
+  ggtitle("人力資源相關係數矩陣圖") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+## 員工工作滿意度-離職群組盒鬚圖
+
+```{r left_boxplot, echo=FALSE}
+ggplot(aes(y = 工作滿意度, x = 離職), data = df) +
+  geom_boxplot() +
+  ggtitle("員工工作滿意度-離職群組盒鬚圖") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+## 整體員工的平均工作滿意度vs.離職員工的平均工作滿意度
+
+```{r t_test, echo=FALSE}
+# 比較整體員工與離職員工的平均工作滿意度
+# 整體員工的平均工作滿意度
+emp_population_satisfaction <- mean(df$工作滿意度)
+left_pop <- subset(df, 離職 == "Yes")
+emp_turnover_satisfaction <- mean(left_pop$工作滿意度)
+mytext1 <- paste(c('整體員工的工作滿意度: ', round(emp_population_satisfaction, 4)*100, '%'), collapse ="")
+mytext2 <- paste(c('離職員工的工作滿意度: ', round(emp_turnover_satisfaction, 4)*100, '%'), collapse ="")
+cat(paste0("===工作滿意度===", "\n", mytext1, "\n", mytext2, "\n\n"))
+```
+
+## T檢定
+
+```{r ttest, echo=FALSE}
+
+# T檢定-比較整體員工與離職員工的平均工作滿意度
+# H0: 離職員工的平均工作滿意度等於整體員工的平均工作滿意度
+# H1: 離職員工的平均工作滿意度不等於整體員工的平均工作滿意度
+    
+cat(paste0("H0: 離職員工的平均工作滿意度等於整體員工的平均工作滿意度\n",
+           "H1: 離職員工的平均工作滿意度不等於整體員工的平均工作滿意度"))
+
+ttest_satisfaction <- t.test(x=left_pop$工作滿意度, mu=emp_population_satisfaction)
+
+print(ttest_satisfaction)
+if (ttest_satisfaction$p.value <= 0.05) {
+  cat("===結論===\n", "拒絕 H0, 即離職員工的平均工作滿意度不等於整體員工的平均工作滿意度")
+  } else {
+  cat("===結論===\n", "不拒絕 H0, 即離職員工的平均工作滿意度等於整體員工的平均工作滿意度")
+  }
+```
+
+## 特徵重要性圖
+
+```{r feature_importance_plot, echo=FALSE}
+cat("使用隨機森林(random forest)繪製特徵重要性圖")
+df_rf <- randomForest(離職~., data=df)
+varImpPlot(df_rf, pch = 16, main="Feature imporance")
+```
+
+## 建立預測模型
+
+```{r modeling, echo=FALSE}
+
+######################################
+# 建立預測模型
+######################################
+
+# step1. 建立訓練集(2/3),測試集(1/3)
+set.seed(168)
+trainIndex <- createDataPartition(df$離職, p = 0.7, list = FALSE)
+train <- df[trainIndex,]  # 使用負號
+test <- df[-trainIndex,]
+
+# step2. 建立監督式學習模型
+set.seed(168)
+
+fitControl <- trainControl(
+  method = "repeatedcv",
+  number = 10,
+  summaryFunction = twoClassSummary, 
+  classProbs = TRUE,
+  savePredictions = TRUE)
+
+model <- function(usedmethod, data_train, data_test) {
+  
+  myformula <- as.formula("離職 ~ .")
+  
+  # 使用 train 進行模型訓練
+  tmp <- train(myformula, 
+               data = data_train, 
+               trControl = fitControl, 
+               method = usedmethod)
+  
+  # 技巧: 使用list回傳模型結果與正確率
+  mymodel <- list(trainmodel=tmp, 
+                  accuracy=mean(data_test$離職 == predict(tmp, data_test)))
+  return(mymodel)
+}
+
+# step3. 三大方法
+
+# 方法1: 廣義線性模型(GLM, generalized linear model)
+suppressWarnings(model_glm <- model("glm", train, test))
+
+# 方法2: CART決策樹
+suppressWarnings(model_cart <- model("rpart", train, test))
+
+# 方法3: KNN
+suppressWarnings(model_knn <- model("knn", train, test))
+
+cat("模型正確率\n")
+cat(" GLM正確率  = ", round(model_glm$accuracy*100, 3), "%", "\n",
+    "CART正確率 = ", round(model_cart$accuracy*100, 3), "%", "\n",
+    "KNN正確率  = ", round(model_knn$accuracy*100, 3), "%")
+```
+
+```{r glm_model, echo=FALSE}
+cat("GLM模型摘要")
+model_glm$trainmodel
+```
+
+```{r cart_model, echo=FALSE}
+cat("CART模型摘要")
+model_cart$trainmodel
+```
+
+```{r knn_model, echo=FALSE}
+cat("KNN模型摘要")
+model_knn$trainmodel
+```
+
+## ROC曲線
+
+```{r, roc_crrve, echo=FALSE, warning=FALSE, message = FALSE}
+
+# Plot roc curve - glm
+    suppressWarnings(plot.roc(model_glm$trainmodel$pred$obs,
+             model_glm$trainmodel$pred$Yes,
+             print.auc=TRUE,
+             print.auc.x=0.2, 
+             print.auc.y=0.7,
+             grid=TRUE,
+             col=2,
+             xlab="", 
+             ylab=""))
+    legend("bottomright", legend=c("GLM", "CART", "KNN"),
+           col=c(2:4), lwd=2)
+    
+    # Plot roc curve - cart
+    suppressWarnings(plot.roc(model_cart$trainmodel$pred$obs,
+             model_cart$trainmodel$pred$Yes,
+             print.auc=TRUE,
+             add=TRUE,
+             col=3,
+             print.auc.x=0.3,
+             print.auc.y=0.6,
+             xlab="", 
+             ylab=""))
+    
+    # Plot roc curve - knn
+    suppressWarnings(plot.roc(model_knn$trainmodel$pred$obs,
+             model_knn$trainmodel$pred$Yes,
+             print.auc=TRUE,
+             add=TRUE,
+             col=4,
+             print.auc.x=0.4, 
+             print.auc.y=0.5,
+             xlab="", 
+             ylab=""))
+    title(xlab="Specificity (True Negative Rate, TNR)",
+          ylab="Sensitivity (True Positive Rate, TPR)")
+```
+
+## 輸入變數
+
+```{r independent_variables, echo=FALSE}
+library(knitr)
+testing <- data.frame(輸入變數=c("考核分數",
+                             "每年專案個數",
+                             "每月工作小時",
+                             "在辨公室時間",
+                             "工作滿意度",
+                             "工安意外",
+                             "升遷",
+                             "部門",
+                             "薪資"),
+                     值=c(params$para_evaluation,
+                               params$para_project,
+                               params$para_hours,
+                               params$para_company,
+                               params$para_satisfication,
+                               ifelse(params$para_accident == 1, "有", "沒有"),
+                               ifelse(params$para_promotion == 1, "有", "沒有"),
+                               params$para_role,
+                               params$para_salary),
+                     check.names = FALSE)
+kable(testing)
+```
+
+## 預測結果(採用KNN模型)
+
+```{r prediction_output, echo=FALSE}
+cat(params$para_prediction)
+```
