@@ -6,6 +6,20 @@
 
 + YouTube: https://www.youtube.com/@alan9956
 
+# RWEPA | R - shiny企業實務應用 第6集-shiny小明算命師(下)-第1季完結篇【附shiny程式、投影片與中文字幕】
+
+日期: 2023.03.25
+
+主題: 6.1 R與小明算命師-shiny展示篇, 6.2 檔案與shiny架構, 6.3 ui設定, 6.4 server設定, 6.5 Rmd設定, 6.6 結論
+
++ YouTube: 
+
++ Slide: 
+
++ Code: https://github.com/rwepa/business_analytics/tree/main/r-shiny-06-hr-teller
+
++ Link: 
+
 # RWEPA | R - shiny企業實務應用 第5集-小明算命師(上)【附小明算命師實作習題、投影片與中文字幕】
 
 日期: 2023.02.25
