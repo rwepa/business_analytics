@@ -664,14 +664,11 @@ server <- function(input, output, session) {
     
     content = function(file) {
       
-      # Copy the report file to a temporary directory before processing it, in
-      # case we don't have write permissions to the current working dir (which
-      # can happen when deployed).
-      
+      # 複製 Rmd 至暫存資料夾.
       tempReport <- file.path(tempdir(), "hr_teller_report_html.Rmd")
       file.copy("data/hr_teller_report_html.Rmd", tempReport, overwrite = TRUE)
       
-      # Set up parameters to pass to Rmd document
+      # 設定參數(params)並傳輸至 Rmd文件, 參數使用 list資料物件.
       params <- list(para_title         = input$hr_title, 
                      para_producer      = input$hr_producer, 
                      para_headdata      = input$hr_headdata, 
@@ -687,9 +684,7 @@ server <- function(input, output, session) {
                      para_salary        = input$hr_salary,
                      para_prediction    = hr_prediction)
       
-      # Knit the document, passing in the `params` list, and eval it in a
-      # child of the global environment (this isolates the code in the document
-      # from the code in this app).
+      # 編譯(Knit)文件, 傳遞參數串列(params list)並評估其結果.
       rmarkdown::render(tempReport, 
                         output_file = file,
                         params = params,
@@ -726,14 +721,11 @@ server <- function(input, output, session) {
     
     content = function(file) {
       
-      # Copy the report file to a temporary directory before processing it, in
-      # case we don't have write permissions to the current working dir (which
-      # can happen when deployed).
-      
+      # 複製 Rmd 至暫存資料夾.
       tempReport <- file.path(tempdir(), "hr_teller_report_docx.Rmd")
       file.copy("data/hr_teller_report_docx.Rmd", tempReport, overwrite = TRUE)
       
-      # Set up parameters to pass to Rmd document
+      # 設定參數(params)並傳輸至 Rmd文件, 參數使用 list資料物件.
       params <- list(para_title         = input$hr_title, 
                      para_producer      = input$hr_producer, 
                      para_headdata      = input$hr_headdata, 
@@ -749,9 +741,7 @@ server <- function(input, output, session) {
                      para_salary        = input$hr_salary,
                      para_prediction    = hr_prediction)
       
-      # Knit the document, passing in the `params` list, and eval it in a
-      # child of the global environment (this isolates the code in the document
-      # from the code in this app).
+      # 編譯(Knit)文件, 傳遞參數串列(params list)並評估其結果.
       rmarkdown::render(tempReport,
                         output_file = file,
                         params = params,
