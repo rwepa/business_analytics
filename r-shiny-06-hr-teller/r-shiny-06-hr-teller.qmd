@@ -1,0 +1,278 @@
+---
+format:
+  revealjs: 
+    theme: default
+    menu: false
+    slide-number: true
+    code-line-numbers: true
+    code-overflow: wrap
+    code-block-bg: true
+    transition: slide
+    transition-speed: slow
+editor: visual
+---
+
+## RWEPA \| R - shiny企業實務應用 {background-color="#002060"}
+
+[第6集-shiny小明算命師(下)-第1季完結篇]{style="color: #FFC000; font-size: 1.5em;"}
+
+::: columns
+::: {.column width="55%"}
+-   按 訂閱、讚、開啟小鈴鐺
+-   <a href="https://youtube.com/@alan9956" target="_blank">https://youtube.com/@alan9956</a>
+-   <a href="http://rwepa.blogspot.com/" target="_blank">http://rwepa.blogspot.com/</a> ![](qmd_images/tail_3_icons.png)
+:::
+
+::: {.column width="45%"}
+Human Resource Teller ![](qmd_images/left_animation_cover.gif)
+:::
+:::
+
+## 大綱
+
+6.1 shiny小明算命師-六大特性
+
+6.2 下載檔案與shiny架構
+
+6.3 ui設定
+
+6.4 server設定
+
+6.5 Rmd設定
+
+6.6 結論
+
+## 6.1 shiny小明算命師-六大特性
+
+::: incremental
+1.  整合敘述統計資料分析
+
+2.  整合推論統計資料分析
+
+3.  整合機器學習進行人力資源預測
+
+4.  下載客製化HTML檔案
+
+5.  下載客製化WORD檔案
+
+6.  輕鬆更換為企業人力資源料集
+:::
+
+## 資料特性
+
+![](qmd_images/01_hr_summary.png)
+
+## 資料特性(隱藏側邊)
+
+![](qmd_images/02_hr_summary_sidebar_hide.png)
+
+## 資料明細
+
+![](qmd_images/03_hr_data_view.png)
+
+## 相關分析
+
+![](qmd_images/04_hr_correlation.png)
+
+## 統計檢定
+
+![](qmd_images/05_hr_statistics.png)
+
+## 建立模型
+
+![](qmd_images/06_hr_modeling.png)
+
+## 小明算命師-預測模型
+
+![](qmd_images/07_hr_teller_forecast.png)
+
+## 小明算命師-報表下載
+
+![](qmd_images/08_hr_teller_report.png)
+
+## 小明算命師-HTML報表下載
+
+![](qmd_images/09_hr_teller_report_html.png)
+
+## 小明算命師-WORD報表下載
+
+![](qmd_images/10_hr_teller_report_docx.png)
+
+## 6.2 下載檔案與shiny架構 {.smaller}
+
+-   下載shiny 小明算命師 app
+
+-   <a href="https://github.com/rwepa/business_analytics/tree/main/r-shiny-06-hr-teller" target="_blank">https://github.com/rwepa/business_analytics/tree/main/r-shiny-06-hr-teller</a>
+
+-   shiny app 架構
+
+![](qmd_images/shiny_code.png)
+
+## shinydashboard 套件 - ui架構
+
+![](qmd_images/ui_structure.png)
+
+## 6.3 ui程式碼
+
+``` r
+ui <- dashboardPage(
+  dashboardHeader(title = "RWEPA | shiny小明算命師-v23.03.25, http://rwepa.blogspot.com/", 
+                  titleWidth = 750),
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem(text="資料特性", tabName = "datasummary", icon = icon("sunglasses", lib = "glyphicon")),
+      menuItem(text="資料明細", tabName = "dataview", icon = icon("list", lib = "glyphicon")),
+      ...
+    )
+  ),
+  
+  dashboardBody(
+    tabItems(
+      tabItem(tabName = "datasummary",
+              
+              fluidRow(
+                box(
+                  title = "資料摘要",
+                  solidHeader = TRUE,
+                  width = 12,
+                  collapsible = TRUE,
+                  verbatimTextOutput("Summary"),
+                ),
+              
+                box(
+                  title = "資料結構",
+                  ...
+                )
+              )
+      ),
+      tabItem(
+      ),
+      ...
+    ) # end for tabItems
+  ) # end for dashboardBody
+) # end for ui
+```
+
+## 6.4 server設定
+
+-   載入圖片 - renderImage函數
+
+-   HTML下載 - downloadHandler函數
+
+## 載入圖片 - renderImage函數
+
+::: columns
+::: {.column width="65%"}
+-   使用 renderImage 函數
+
+-   使用 list 傳遞圖片物件
+
+```{r}
+#| eval: false
+#| echo: true
+output$left_prediction <- renderImage({
+    list(src = "qmd_images/left_animation.gif",
+         contentType = "image/gif")
+  }, deleteFile = FALSE)
+```
+:::
+
+::: {.column width="35%"}
+![](qmd_images/left_animation.gif)
+:::
+:::
+
+## HTML下載 - downloadHandler函數
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: "2|5-7|10|19-22"
+# HTML下載
+output$download_report_html <- downloadHandler({
+  content = function(file) {
+    
+      # 複製 Rmd 至暫存資料夾
+      tempReport <- file.path(tempdir(), "hr_teller_report_html.Rmd")
+      file.copy("data/hr_teller_report_html.Rmd", tempReport, overwrite = TRUE)
+      
+      # 設定參數(params)並傳輸至 Rmd文件, 參數使用 list資料物件.
+      params <- list(para_title         = input$hr_title, 
+                     para_producer      = input$hr_producer, 
+                     para_headdata      = input$hr_headdata, 
+                     para_str           = input$hr_str,
+                     para_evaluation    = input$hr_evaluation,
+                     ...,
+                     para_prediction    = hr_prediction)
+      
+      # 編譯(Knit)文件, 傳遞參數串列(params list)並評估其結果.
+      rmarkdown::render(tempReport, 
+                        output_file = file,
+                        params = params,
+                        envir = new.env(parent = globalenv())
+      )
+    }
+})
+```
+
+## 6.5 Rmd設定 {.smaller}
+
+-   HTML Rmd檔案
+
+    -   檔名: hr_teller_report_html.Rmd, 輸出: output: [html_document]{style="color: red;"}
+
+-   WORD docx檔案: hr_teller_report_docx.Rmd
+
+    -   檔名: hr_teller_report_docx.Rmd, 輸出: output: [word_document]{style="color: red;"}
+
+```{r}
+#| eval: false
+#| echo: true
+---
+output: html_document
+params:
+  para_title: NA
+  para_producer: NA
+  para_headdata: NA
+  para_str: NA
+  para_evaluation: NA
+  para_project: NA
+  para_hours: NA
+  para_company: NA
+  para_satisfication: NA
+  para_accident: NA
+  para_promotion: NA
+  para_role: NA
+  para_salary: NA
+  para_prediction: NA
+---
+
+# 主題: `r params$para_title`
+# 製表: `r params$para_producer`
+```
+
+## 6.6 結論
+
+-   熟悉 shiny, shinydashboard 互動式資料分析套件
+
+-   熟悉 readr, dplyr, ggcorrplot, ggplot2, randomForest, caret, pROC 套件
+
+-   提供`shiny銷售儀表板`規劃與製作流程
+
+-   提供`shiny人力資源儀表板`規劃與製作流程
+
+-   R與小明算命師(下) ...第1季完結篇
+
+## 
+
+::: {style="text-align: center"}
+[THANK YOU😃]{style="color: red;"}
+
+-   按 訂閱🛒、讚👋、開啟小鈴鐺🔔
+-   <a href="https://youtube.com/@alan9956" target="_blank">https://youtube.com/@alan9956</a>
+-   <a href="http://rwepa.blogspot.com/" target="_blank">http://rwepa.blogspot.com/</a>
+
+![](qmd_images/tail_subscribe) ![](qmd_images/tail_rwepa.png) ![](qmd_images/tail_lee.png)
+
+![](qmd_images/thanks.gif)
+:::
