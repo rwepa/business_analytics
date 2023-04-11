@@ -12,13 +12,15 @@
 
 主題: 6.1 R與小明算命師-shiny展示篇, 6.2 檔案與shiny架構, 6.3 ui設定, 6.4 server設定, 6.5 Rmd設定, 6.6 結論
 
-+ YouTube: 
++ YouTube: https://youtu.be/rrD6KV3eV-w
 
-+ Slide: 
++ Ubuntu Shiny Server: https://shiny.rwepa.net/shiny-hr-teller/
+
++ Slide: https://rwepa.quarto.pub/r-shiny-06-hr-teller/
 
 + Code: https://github.com/rwepa/business_analytics/tree/main/r-shiny-06-hr-teller
 
-+ Link: 
++ Link: http://rwepa.blogspot.com/2023/03/r-shiny-06-hr-teller.html
 
 # RWEPA | R - shiny企業實務應用 第5集-小明算命師(上)【附小明算命師實作習題、投影片與中文字幕】
 
@@ -41,6 +43,10 @@
 主題: 4.1 範例_runExample("04_mpg") 4.2 範例_runExample("05_sliders") 4.3 銷售儀表板-手繪版 4.4 銷售儀表板-完成版 4.5 習題-R與**小明算命師** 4.6 結論
 
 + YouTube: https://youtu.be/4GgZlf8heQk
+
++ shiny: https://rwepa.shinyapps.io/shinySalesDashboard/
+
++ Ubuntu Shiny Server: https://shiny.rwepa.net/shiny-sales/
 
 + Slide: https://rwepa.quarto.pub/r-shiny-04-sales-project/
 
