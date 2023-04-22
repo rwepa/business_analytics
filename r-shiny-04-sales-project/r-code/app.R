@@ -11,7 +11,13 @@ library(shiny)   # shinyApp
 library(dplyr)   # mutate_if, mutate, filter
 library(DT)      # datatable
 library(ggplot2) # ggplot
-library(plotly)  # plot_ly (Ubuntu: sudo apt-get install -y r-cran-plotly)
+library(plotly)  # plot_ly
+
+# Ubuntu 22.04.2 LTS note:
+# Warning: Error in <Anonymous>: Graphics API version mismatch, Package freetype2 was not found in the pkg-config search path.
+# Step 1. sudo apt-get install libfreetype6-dev
+# Step 2. install.package("ragg")
+# Step 3. sudo apt-get install -y r-cran-plotly
 
 # 線上銷售儀表板App
 # https://rwepa.shinyapps.io/shinySalesDashboard/
