@@ -19,6 +19,9 @@ library(plotly)  # plot_ly
 # Step 2. install.package("ragg")
 # Step 3. sudo apt-get install -y r-cran-plotly
 
+# plotly 顯示空白異常, 安裝其它舊版本.
+# devtools::install_version("plotly", version = "4.5.6", repos = "http://cran.us.r-project.org")
+
 # 線上銷售儀表板App
 # https://rwepa.shinyapps.io/shinySalesDashboard/
   
