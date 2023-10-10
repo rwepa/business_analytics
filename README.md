@@ -42,17 +42,17 @@
  
 3. 建立 RFM 圖表應用。
 
-＋ 🌸注意：本篇教學無需 Power BI 先備知識。
++ 🌸注意：本篇教學無需 Power BI 先備知識。
 
-＋ 🌸YouTube：https://youtu.be/Lkr9HmzLTtg
++ 🌸YouTube：https://youtu.be/Lkr9HmzLTtg
 
-＋ 🌷完成檔案: https://github.com/rwepa/DataDemo/blob/master/rfm_tutorial.pbix
++ 🌷完成檔案: https://github.com/rwepa/DataDemo/blob/master/rfm_tutorial.pbix
 
-＋ 🌷Slide: https://github.com/rwepa/DataDemo/blob/master/rfm_tutorial.pdf
++ 🌷Slide: https://github.com/rwepa/DataDemo/blob/master/rfm_tutorial.pdf
 
-＋ 🌷Code: https://github.com/rwepa/DataDemo/blob/master/rfm_tutorial.txt
++ 🌷Code: https://github.com/rwepa/DataDemo/blob/master/rfm_tutorial.txt
 
-＋ 🌷Link: https://rwepa.blogspot.com/2023/07/rwepa-rfm-analysis-using-power-bi.html
++ 🌷Link: https://rwepa.blogspot.com/2023/07/rwepa-rfm-analysis-using-power-bi.html
 
 # RWEPA | R - shiny企業實務應用 第6集-shiny小明算命師(下)-第1季完結篇【附shiny程式、投影片與中文字幕】
 
