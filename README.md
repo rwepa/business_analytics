@@ -6,6 +6,28 @@
 
 + YouTube: https://www.youtube.com/@alan9956
 
+# RWEPA | 登山路線視覺化分析平台 (Python + Streamlit) 【中文字幕】
+
+日期: 2023.08.28
+
+主題: 使用免費 Python 與 Streamlit 模組，建立登山路線視覺化分析平台。
+
+特色: 
+
++ 理解使用 Python程式匯入 GPX 檔案。
+
++ 熟悉 Pandas 資料處理、matplotlib 與 folium 視覺化應用。
+
++ 理解 Streamlit 模組檔案匯出為 Excel 應用。
+
++ 🌸YouTube (包括中文字幕)：https://youtu.be/-_zghs2qrIg
+
++ 🌷系統展示: https://rwepa-climb.streamlit.app/
+
++ 🌷Code: https://github.com/rwepa/teaching-streamlit-climb
+
++ 🌷Link: https://rwepa.blogspot.com/2023/08/visualization-climbing-routes-with.html
+
 # RWEPA | R - shiny企業實務應用 第6集-shiny小明算命師(下)-第1季完結篇【附shiny程式、投影片與中文字幕】
 
 日期: 2023.03.25
