@@ -14,11 +14,11 @@
 
 特色: 
 
-+ 理解使用 Python程式匯入 GPX 檔案。
+1. 理解使用 Python程式匯入 GPX 檔案。
 
-+ 熟悉 Pandas 資料處理、matplotlib 與 folium 視覺化應用。
+2. 熟悉 Pandas 資料處理、matplotlib 與 folium 視覺化應用。
 
-+ 理解 Streamlit 模組檔案匯出為 Excel 應用。
+3. 理解 Streamlit 模組檔案匯出為 Excel 應用。
 
 + 🌸YouTube (包括中文字幕)：https://youtu.be/-_zghs2qrIg
 
