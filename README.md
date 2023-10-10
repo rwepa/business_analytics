@@ -28,6 +28,32 @@
 
 + 🌷Link: https://rwepa.blogspot.com/2023/08/visualization-climbing-routes-with.html
 
+# RWEPA | RWEPA | RFM Analysis Using Power BI【中文字幕】
+
+日期: 2023.07.09
+
++ 使用免費 Power BI 軟體，建立銷售資料RFM分析並理解客戶區隔應用。
+
++ 特色：
+
+1. 理解 RFM 意義。
+ 
+2. 熟悉 Power Query 資料處理。
+ 
+3. 建立 RFM 圖表應用。
+
+🌸注意：本篇教學無需 Power BI 先備知識。
+
+🌸YouTube：https://youtu.be/Lkr9HmzLTtg
+
+🌷完成檔案: https://github.com/rwepa/DataDemo/blob/master/rfm_tutorial.pbix
+
+🌷Slide: https://github.com/rwepa/DataDemo/blob/master/rfm_tutorial.pdf
+
+🌷Code: https://github.com/rwepa/DataDemo/blob/master/rfm_tutorial.txt
+
+🌷Link: https://rwepa.blogspot.com/2023/07/rwepa-rfm-analysis-using-power-bi.html
+
 # RWEPA | R - shiny企業實務應用 第6集-shiny小明算命師(下)-第1季完結篇【附shiny程式、投影片與中文字幕】
 
 日期: 2023.03.25
